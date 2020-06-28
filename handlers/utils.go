@@ -2,12 +2,14 @@ package handlers
 
 import (
 	"context"
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"net/http"
 	"strings"
 	"time"
 
+	"timer.com/db"
 	"timer.com/utils"
 
 	"github.com/sirupsen/logrus"
@@ -15,10 +17,10 @@ import (
 
 type requestData struct {
 	logger *logrus.Entry
-	//db     *db.Conn
-	w     http.ResponseWriter
-	r     *http.Request
-	start time.Time
+	dbConn *sql.DB
+	w      http.ResponseWriter
+	r      *http.Request
+	start  time.Time
 }
 
 type responseMessage struct {
@@ -47,14 +49,12 @@ func logAndGetRequestData(w http.ResponseWriter, r *http.Request) (*http.Request
 		l.Info("Serving Request: ", r.RequestURI, ", Method:", r.Method)
 	}
 
-	//dbConn := db.NewConn(&l)
-
 	return r, &requestData{
 		logger: &l,
-		//db:     dbConn,
-		w:     w,
-		r:     r,
-		start: time.Now(),
+		dbConn: db.GetDB(),
+		w:      w,
+		r:      r,
+		start:  time.Now(),
 	}
 }
 
