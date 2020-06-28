@@ -1,0 +1,40 @@
+<html>
+<head>
+<style>
+h1   {text-align: center;}
+th,td    {padding: 10px; text-align: center}
+table {margin: 0px auto; }
+
+table,th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+</style>
+</head>
+
+ <h1> Timer </h1>
+<div style="margin-top: 8%;">
+<table>
+  <thead>
+    <tr>
+      <th> ID </th>
+      <th> Step Time </th>
+      <th> Counter </th>
+    </tr>
+  </thead>
+ 
+
+<tbody>
+  {{range .Items}}
+
+	<tr>
+		<td>{{.ID}}</td>
+		<td>{{.StepTime}}</td>
+		<td>{{.Counter}}</td>
+	</tr>
+	{{end}}
+</tbody>
+</table>
+</div>
+</html>

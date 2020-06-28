@@ -1,7 +1,9 @@
 package handlers
 
 import (
+	"html/template"
 	"net/http"
+	"path"
 	"strconv"
 
 	"timer.com/dtos"
@@ -22,7 +24,21 @@ func setTimerRoutes(router chi.Router) {
 }
 
 func DisplayTimer(w http.ResponseWriter, r *http.Request) {
-	//r, rd := logAndGetRequestData(w, r)
+	r, rd := logAndGetRequestData(w, r)
+	data := dtos.Data{}
+
+	data.Items = services.NewTimer(rd.logger).GetAll()
+
+	fp := path.Join("templates/timer", "display.html")
+	tmpl, err := template.ParseFiles(fp)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	if err := tmpl.Execute(w, data); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 }
 
 func CheckTimer(w http.ResponseWriter, r *http.Request) {

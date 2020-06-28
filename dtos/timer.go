@@ -14,3 +14,7 @@ type Timer struct {
 	Context    context.Context    `json:"_"`
 	Cancel     context.CancelFunc `json:"_"`
 }
+
+type Data struct {
+	Items []*Timer
+}
